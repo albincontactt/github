@@ -226,7 +226,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Function to show toast alert
+  // ==========================================================================
+  // REELS FILTER TABS
+  // ==========================================================================
+  const filterBtns = document.querySelectorAll('.reel-filter-btn');
+  const reelCards = document.querySelectorAll('.reel-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active button
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      reelCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.classList.remove('hidden');
+          // Small pop-in animation
+          card.style.animation = 'none';
+          requestAnimationFrame(() => {
+            card.style.animation = 'reelPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+          });
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // ==========================================================================
+  // SHOW TOAST HELPER
+  // ==========================================================================
   const showToast = (message, type = 'success') => {
     toastMsg.textContent = message;
     
@@ -247,3 +279,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   };
 });
+
+
